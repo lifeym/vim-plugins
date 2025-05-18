@@ -1,0 +1,63 @@
+[submodule "start/editorconfig-vim"]
+	path = start/editorconfig-vim
+	url = https://github.com/editorconfig/editorconfig-vim
+[submodule "start/auto-pairs"]
+	path = start/auto-pairs
+	url = https://github.com/jiangmiao/auto-pairs
+[submodule "start/bufexplorer"]
+	path = start/bufexplorer
+	url = https://github.com/jlanzarotta/bufexplorer
+[submodule "start/nerdtree"]
+	path = start/nerdtree
+	url = https://github.com/preservim/nerdtree
+[submodule "start/ale"]
+	path = start/ale
+	url = https://github.com/dense-analysis/ale
+[submodule "start/lightline.vim"]
+	path = start/lightline.vim
+	url = https://github.com/itchyny/lightline.vim
+[submodule "start/vim-surround"]
+	path = start/vim-surround
+	url = https://github.com/tpope/vim-surround
+[submodule "opt/sonokai"]
+	path = opt/sonokai
+	url = https://github.com/sainnhe/sonokai
+[submodule "start/vim-commentary"]
+	path = start/vim-commentary
+	url = https://github.com/tpope/vim-commentary
+[submodule "start/vim-abolish"]
+	path = start/vim-abolish
+	url = https://github.com/tpope/vim-abolish
+[submodule "start/vim-expand-region"]
+	path = start/vim-expand-region
+	url = https://github.com/terryma/vim-expand-region
+[submodule "start/vim-visual-multi"]
+	path = start/vim-visual-multi
+	url = https://github.com/mg979/vim-visual-multi
+[submodule "start/mru"]
+	path = start/mru
+	url = https://github.com/yegappan/mru
+[submodule "start/fzf"]
+	path = start/fzf
+	url = https://github.com/junegunn/fzf
+[submodule "start/fzf.vim"]
+	path = start/fzf.vim
+	url = https://github.com/junegunn/fzf.vim
+[submodule "start/vim-floaterm"]
+	path = start/vim-floaterm
+	url = https://github.com/voldikss/vim-floaterm
+[submodule "start/lightline-ale"]
+	path = start/lightline-ale
+	url = https://github.com/maximbaz/lightline-ale
+[submodule "start/rust.vim"]
+	path = start/rust.vim
+	url = https://github.com/rust-lang/rust.vim
+[submodule "start/vim-go"]
+	path = start/vim-go
+	url = https://github.com/fatih/vim-go
+[submodule "start/vim-fugitive"]
+	path = start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "start/vim-gitgutter"]
+	path = start/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter

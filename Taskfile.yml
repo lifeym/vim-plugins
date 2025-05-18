@@ -1,0 +1,48 @@
+version: '3'
+
+includes:
+  items:
+    taskfile: ./plugins.yml
+    flatten: true
+
+tasks:
+  default:
+    cmds:
+    - cmd: task -l
+      silent: true
+
+  add:
+    dir: '{{.TASKFILE_DIR}}'
+    internal: true
+    cmds:
+    - cmd: "cd {{.PLUG_TYPE}} && git submodule add https://github.com/{{.PLUG}}"
+      ignore_error: true
+
+  add:start:
+    desc: Add github plugin to the repo's start folder
+    summary: |
+      Use git to add github plugin to this repo's start folder.
+      No need to contain `https://github.com` part.
+    cmds:
+    - for: { var: start }
+      task: add
+      vars:
+        PLUG: '{{.ITEM}}'
+        PLUG_TYPE: "start"
+
+  add:opt:
+    desc: Add github plugin to the repo's start folder
+    summary: |
+      Use git to add github plugin to this repo's opt folder.
+      No need to contain `https://github.com` part.
+    cmds:
+    - for: { var: opt }
+      task: add
+      vars:
+        PLUG: '{{.ITEM}}'
+        PLUG_TYPE: "opt"
+
+  add:all:
+    cmds:
+    - task: "add:start"
+    - task: "add:opt"
