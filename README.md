@@ -2,15 +2,28 @@
 
 This repo contains all vim plugins that used by myself.
 
-## How to add a plugin repo
-### First step
-Just edit plugin.yml file.
-File only contain 2 vars: "start" and "opt" currently.
-Do not add anything else in this file
-### And then
+## How to add/delete a plugin repo
+
+Just edit plugins-start.txt and plugins-opt.txt file to suite the needs.
+
+And then
+
 ```bash
-task add:all
+task sync
 ```
 
-## How to delete a plugin repo
-See above
+## How to update plugins
+
+```
+task update
+```
+
+## Others
+
+Use
+```
+task -l
+```
+to see all available tasks.
+
+But task like "add", "remove" may not useful than "sync".

@@ -1,0 +1,30 @@
+# Plugins
+# No need to contain `https://github.com` part.
+
+# For better editting
+editorconfig/editorconfig-vim
+jiangmiao/auto-pairs
+jlanzarotta/bufexplorer
+preservim/nerdtree
+dense-analysis/ale
+itchyny/lightline.vim
+tpope/vim-surround
+tpope/vim-commentary
+tpope/vim-abolish
+terryma/vim-expand-region
+mg979/vim-visual-multi
+yegappan/mru
+junegunn/fzf
+junegunn/fzf.vim
+voldikss/vim-floaterm
+
+# For bettoer programming
+maximbaz/lightline-ale
+
+# For syntaxing
+rust-lang/rust.vim
+fatih/vim-go
+
+# GIT intergration
+tpope/vim-fugitive
+airblade/vim-gitgutter

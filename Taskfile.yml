@@ -1,48 +1,109 @@
 version: '3'
 
-includes:
-  items:
-    taskfile: ./plugins.yml
-    flatten: true
-
 tasks:
   default:
     cmds:
     - cmd: task -l
       silent: true
 
-  add:
-    dir: '{{.TASKFILE_DIR}}'
+  add:by-type:
     internal: true
+    desc: Add github plugin to the repo's start/opt folder
     cmds:
-    - cmd: "cd {{.PLUG_TYPE}} && git submodule add https://github.com/{{.PLUG}}"
+    - cmd: |
+        cd {{.PLUG_TYPE}} && sed -r -e 's/ *#.*//g' ../plugins-{{.PLUG_TYPE}}.txt | sed -r -e '/^ *$/d' | xargs -I {} sh -c '\
+        p=$(echo "{}" | awk -F"/" "{print \$NF}");\
+        if git submodule status | grep "$p">/dev/null; then\
+          echo "Plugin $p already exists, skipping...";\
+        else\
+          git submodule add "https://github.com/{}";\
+        fi\
+        '
+      silent: true
       ignore_error: true
 
   add:start:
-    desc: Add github plugin to the repo's start folder
-    summary: |
-      Use git to add github plugin to this repo's start folder.
-      No need to contain `https://github.com` part.
+    internal: true
+    desc: This task will add the plugin to the start folder if it is not already present.
     cmds:
-    - for: { var: start }
-      task: add
+    - task: "add:by-type"
       vars:
-        PLUG: '{{.ITEM}}'
-        PLUG_TYPE: "start"
+        PLUG_TYPE: start
 
   add:opt:
-    desc: Add github plugin to the repo's start folder
-    summary: |
-      Use git to add github plugin to this repo's opt folder.
-      No need to contain `https://github.com` part.
+    internal: true
+    desc: This task will add the plugin to the opt folder if it is not already present.
     cmds:
-    - for: { var: opt }
-      task: add
+    - task: "add:by-type"
       vars:
-        PLUG: '{{.ITEM}}'
-        PLUG_TYPE: "opt"
+        PLUG_TYPE: opt
 
-  add:all:
+  add:
+    desc: This task will add the plugin to the start/opt folder if it is not already present.
+    summary: |
+      This task will add the plugin to the start/opt folder if it is not already present.
+      If the plugin is already present, it will be skipped.
     cmds:
     - task: "add:start"
     - task: "add:opt"
+
+  remove:
+    desc: Remove plugin from the repo's start/opt folder
+    summary: |
+      This task will remove the plugin from the start/opt folder if it is not presented in plugins-start.txt and plugins-opt.txt files.
+    cmds:
+    - cmd: |
+        git submodule status | awk '{print $2}' | xargs -I {} sh -c '\
+        p=$(echo "{}" | awk -F"/" "{print \$NF}");\
+        sed -r -e "s/ *#.*//g" plugins-start.txt plugins-opt.txt | sed -r -e "/^ *$/d" | awk -F"/" "{print \$NF}" | grep "$p">/dev/null || (\
+          git submodule deinit --force "{}"\
+          && git rm --force "{}"\
+          && rm -rf ".git/modules/{}")'
+      silent: true
+      ignore_error: true
+
+  sync:
+    desc: Sync all plugins from the plugins-start.txt and plugins-opt.txt files
+    summary: |
+      This task will sync all plugins in the start/opt folder.
+      This will update the plugins to the latest commit and remove any local changes.
+      It will also remove any plugins that are not in the plugins-start.txt and plugins-opt.txt files.
+    cmds:
+    - task: "remove"
+    - task: "add"
+    - task: "update"
+
+  update:
+    desc: Update all plugins
+    summary: |
+      This task will update all plugins in the start/opt folder.
+    cmds:
+    # Cannot use `git submodule update --remote --recursive` directly, because it will update submodules in submodules.
+    # This is not what we want, because we only want to update the submodules in the current repo.
+    # So we need to use `git submodule status` to get the list of submodules and then update them one by one.
+    - "git submodule status | awk '{print $2}' | xargs -I {} git submodule update --remote {}"
+
+  reset:
+    desc: Reset all plugins
+    summary: |
+      This task will reset all plugins in the start/opt folder.
+      This will remove any local changes and reset the plugins to the latest commit.
+    cmds:
+    - "git pull --recurse-submodules"
+
+  init:
+    desc: Initialize all plugins
+    summary: |
+      This task will initialize all plugins in the start/opt folder.
+      This will clone the plugins if they are not already present.
+    cmds:
+    - task: "reset"
+
+  list:
+    desc: List all plugins
+    summary: |
+      This task will list all plugins in the start/opt folder.
+      This will show the status of each plugin and whether it is up to date or not.
+    cmds:
+    - cmd: "git submodule status"
+      silent: true

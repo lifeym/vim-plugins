@@ -1,0 +1,5 @@
+# Plugins
+# No need to contain `https://github.com` part.
+
+# Color schemes
+sainnhe/sonokai
